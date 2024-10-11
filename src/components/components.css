@@ -1,0 +1,92 @@
+
+/* Form Container */
+.login-form {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Form Labels */
+.login-form label {
+    font-weight: 600;
+    color: #333333; /* Dark Gray */
+    margin-bottom: 6px;
+    display: inline-block;
+    width: 70%;
+}
+
+/* Input Fields */
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333333; /* Dark Gray */
+    background-color: #fff;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+/* Input Focus */
+.login-form input:focus {
+    border-color: #4A90E2; /* Blue */
+    outline: none;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
+}
+
+/* Button Styles */
+.login-form .btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-form .btn-primary {
+    background-color: #4A90E2; /* Blue */
+    color: white;
+}
+
+.login-form .btn-primary:hover {
+    background-color: #357ABD; /* Darker Blue */
+}
+
+.login-form .btn-light {
+    background-color: #F5F7FA; /* Light Gray */
+    color: #333333; /* Dark Gray */
+    margin-top: 10px;
+}
+
+.login-form .btn-light:hover {
+    background-color: #E0E0E0; /* Slightly darker gray */
+}
+
+/* Link inside Button */
+.login-form .btn-light a {
+    text-decoration: none;
+    color: #333333; /* Dark Gray */
+}
+
+.login-form .btn-light a:hover {
+    text-decoration: underline;
+}
+
+/* Form Button Container */
+.login-form div {
+    display: flex;
+    justify-content: space-between;
+}

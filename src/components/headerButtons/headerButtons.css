@@ -1,0 +1,39 @@
+/* Styling for the header buttons */
+.logout-button, .dashboard-button {
+    background-color: #007bff; /* Primary blue color */
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    position: absolute;
+  }
+
+  .logout-button{
+    top: 10px;
+    right: 35px;
+  }
+  .dashboard-button{
+    top: 10px;
+    right: 150px;
+  }
+  
+  .logout-button:hover, .dashboard-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  
+  .header-buttons-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .logout-button:focus, .dashboard-button:focus {
+    outline: none;
+  }
+  
