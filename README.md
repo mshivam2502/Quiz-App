@@ -73,5 +73,6 @@ Contributions are welcome! Please open an issue or submit a pull request to cont
 
 ## Author
 Shivam Malvadkar
-[Your LinkedIn Profile](https://www.linkedin.com/in/shivam-malvadkar-7011b6240)  
-[Your GitHub Profile](https://github.com/mshivam2502)
+
+[LinkedIn Profile](https://www.linkedin.com/in/shivam-malvadkar-7011b6240)  
+[GitHub Profile](https://github.com/mshivam2502)
