@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import "./quiz.css";
-
 import quizData from "../../utils/gkQuiz.js"; // Assuming the quiz data is imported from a JSON file
 import { useNavigate } from 'react-router-dom';
 
@@ -14,12 +13,11 @@ export default function GkQuiz() {
   const [timeLeft, setTimeLeft] = useState(600); // 600 seconds = 10 minutes
   const nav = useNavigate();
 
-
   // Timer logic
   useEffect(() => {
     if (quizStarted && timeLeft > 0) {
       const timerId = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
+        setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
 
       return () => clearInterval(timerId); // Cleanup
@@ -86,42 +84,21 @@ export default function GkQuiz() {
           <div className="question-section">
             <h3>Question {currentQuestion + 1} of {quizData.length}</h3>
             <p>{quizData[currentQuestion].Question}</p>
-            
+
             <div className="options-section">
-              <label>
-                <input
-                  type="radio"
-                  name={`question${currentQuestion}`}
-                  value="1"
-                  onClick={() => handleAnswer(currentQuestion, 1)}
-                /> {quizData[currentQuestion].option1}
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name={`question${currentQuestion}`}
-                  value="2"
-                  onClick={() => handleAnswer(currentQuestion, 2)}
-                /> {quizData[currentQuestion].option2}
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name={`question${currentQuestion}`}
-                  value="3"
-                  onClick={() => handleAnswer(currentQuestion, 3)}
-                /> {quizData[currentQuestion].option3}
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name={`question${currentQuestion}`}
-                  value="4"
-                  onClick={() => handleAnswer(currentQuestion, 4)}
-                /> {quizData[currentQuestion].option4}
-              </label>
+              {Object.keys(quizData[currentQuestion]).slice(1, 5).map((key, index) => (
+                <label key={index}>
+                  <input
+                    type="radio"
+                    name={`question${currentQuestion}`}
+                    value={index + 1}
+                    checked={userAnswers[currentQuestion] === index + 1} // Control the checked state
+                    onChange={() => handleAnswer(currentQuestion, index + 1)} // Use onChange instead of onClick
+                  /> {quizData[currentQuestion][key]}
+                </label>
+              ))}
             </div>
-            
+
             {/* Navigation Buttons */}
             <div className="navigation-buttons">
               {currentQuestion > 0 && (
@@ -154,10 +131,10 @@ export default function GkQuiz() {
         <div className="results-section">
           <h2>Quiz Completed</h2>
           <p>Your score is: {score} out of {quizData.length}</p>
-          <button className="btn btn-primary" onClick={()=>{window.location.reload()}}>
+          <button className="btn btn-primary" onClick={() => window.location.reload()}>
             Retake Quiz
           </button>
-          <button className="btn btn-primary" onClick={()=>{nav("/dashboard")}}>
+          <button className="btn btn-primary" onClick={() => nav("/dashboard")}>
             Go to Dashboard
           </button>
         </div>

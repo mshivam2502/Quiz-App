@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./quiz.css";
-
-import quizData from "../../utils/analyticalQuiz.js"; // Assuming the analytical quiz data is imported from a JSON file
+import quizData from "../../utils/analyticalQuiz.js"; // Import analytical quiz data
 import { useNavigate } from 'react-router-dom';
 
 export default function AnalyticalQuiz() {
@@ -18,10 +17,10 @@ export default function AnalyticalQuiz() {
   useEffect(() => {
     if (quizStarted && timeLeft > 0) {
       const timerId = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
+        setTimeLeft(prevTime => prevTime - 1);
       }, 1000);
 
-      return () => clearInterval(timerId); // Cleanup
+      return () => clearInterval(timerId);
     } else if (timeLeft === 0) {
       alert("Time's up! Submitting quiz.");
       handleSubmit();
@@ -30,7 +29,7 @@ export default function AnalyticalQuiz() {
 
   // Function to handle answer selection
   const handleAnswer = (questionIndex, selectedOption) => {
-    setUserAnswers({ ...userAnswers, [questionIndex]: selectedOption });
+    setUserAnswers(prevAnswers => ({ ...prevAnswers, [questionIndex]: selectedOption }));
   };
 
   // Function to calculate score
@@ -46,9 +45,9 @@ export default function AnalyticalQuiz() {
 
   // Function to submit the quiz
   const handleSubmit = () => {
-    calculateScore(); // Calculate score before submitting
+    calculateScore();
     setQuizStarted(false);
-    setQuizCompleted(true); // Show results
+    setQuizCompleted(true);
   };
 
   // Function to start the quiz
@@ -56,9 +55,9 @@ export default function AnalyticalQuiz() {
     setShowInstructions(false);
     setQuizStarted(true);
     setQuizCompleted(false);
-    setTimeLeft(600); // Reset timer to 10 minutes
-    setUserAnswers({}); // Reset answers
-    setScore(0); // Reset score
+    setTimeLeft(600);
+    setUserAnswers({});
+    setScore(0);
   };
 
   return (
@@ -76,52 +75,28 @@ export default function AnalyticalQuiz() {
 
       {quizStarted && (
         <>
-          {/* Timer */}
           <div className="timer">
             <p>Time Remaining: {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60} minutes</p>
           </div>
 
-          {/* Quiz Content */}
           <div className="question-section">
             <h3>Question {currentQuestion + 1} of {quizData.length}</h3>
-            <p>{quizData[currentQuestion].Question}</p>
-            
+            <p>{quizData[currentQuestion]?.Question || "Loading..."}</p>
+
             <div className="options-section">
-              <label>
-                <input
-                  type="radio"
-                  name={`question${currentQuestion}`}
-                  value="1"
-                  onClick={() => handleAnswer(currentQuestion, 1)}
-                /> {quizData[currentQuestion].option1}
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name={`question${currentQuestion}`}
-                  value="2"
-                  onClick={() => handleAnswer(currentQuestion, 2)}
-                /> {quizData[currentQuestion].option2}
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name={`question${currentQuestion}`}
-                  value="3"
-                  onClick={() => handleAnswer(currentQuestion, 3)}
-                /> {quizData[currentQuestion].option3}
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name={`question${currentQuestion}`}
-                  value="4"
-                  onClick={() => handleAnswer(currentQuestion, 4)}
-                /> {quizData[currentQuestion].option4}
-              </label>
+              {[1, 2, 3, 4].map(option => (
+                <label key={option}>
+                  <input
+                    type="radio"
+                    name={`question${currentQuestion}`}
+                    value={option}
+                    checked={userAnswers[currentQuestion] === option} // Set the checked state
+                    onChange={() => handleAnswer(currentQuestion, option)} // Use onChange to capture user selection
+                  /> {quizData[currentQuestion]?.[`option${option}`] || `Option ${option}`}
+                </label>
+              ))}
             </div>
-            
-            {/* Navigation Buttons */}
+
             <div className="navigation-buttons">
               {currentQuestion > 0 && (
                 <button
@@ -153,10 +128,10 @@ export default function AnalyticalQuiz() {
         <div className="results-section">
           <h2>Quiz Completed</h2>
           <p>Your score is: {score} out of {quizData.length}</p>
-          <button className="btn btn-primary" onClick={()=>{window.location.reload()}}>
+          <button className="btn btn-primary" onClick={() => window.location.reload()}>
             Retake Quiz
           </button>
-          <button className="btn btn-primary" onClick={()=>{nav("/dashboard")}}>
+          <button className="btn btn-primary" onClick={() => nav("/dashboard")}>
             Go to Dashboard
           </button>
         </div>

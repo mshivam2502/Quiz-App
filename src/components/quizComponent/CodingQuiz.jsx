@@ -18,7 +18,7 @@ export default function CodingQuiz() {
   useEffect(() => {
     if (quizStarted && timeLeft > 0) {
       const timerId = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
+        setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
 
       return () => clearInterval(timerId); // Cleanup
@@ -30,14 +30,14 @@ export default function CodingQuiz() {
 
   // Function to handle answer selection
   const handleAnswer = (questionIndex, selectedOption) => {
-    setUserAnswers({ ...userAnswers, [questionIndex]: selectedOption });
+    setUserAnswers((prevAnswers) => ({ ...prevAnswers, [questionIndex]: selectedOption }));
   };
 
   // Function to calculate score
   const calculateScore = () => {
     let calculatedScore = 0;
     quizData.forEach((question, index) => {
-      if (userAnswers[index] === question.answer) {
+      if (userAnswers[index] === question.answer.toString()) { // Ensure both are strings
         calculatedScore += 1;
       }
     });
@@ -92,7 +92,8 @@ export default function CodingQuiz() {
                   type="radio"
                   name={`question${currentQuestion}`}
                   value="1"
-                  onClick={() => handleAnswer(currentQuestion, 1)}
+                  checked={userAnswers[currentQuestion] === "1"} // Check if this option is selected
+                  onChange={() => handleAnswer(currentQuestion, "1")}
                 /> {quizData[currentQuestion].option1}
               </label>
               <label>
@@ -100,7 +101,8 @@ export default function CodingQuiz() {
                   type="radio"
                   name={`question${currentQuestion}`}
                   value="2"
-                  onClick={() => handleAnswer(currentQuestion, 2)}
+                  checked={userAnswers[currentQuestion] === "2"} // Check if this option is selected
+                  onChange={() => handleAnswer(currentQuestion, "2")}
                 /> {quizData[currentQuestion].option2}
               </label>
               <label>
@@ -108,7 +110,8 @@ export default function CodingQuiz() {
                   type="radio"
                   name={`question${currentQuestion}`}
                   value="3"
-                  onClick={() => handleAnswer(currentQuestion, 3)}
+                  checked={userAnswers[currentQuestion] === "3"} // Check if this option is selected
+                  onChange={() => handleAnswer(currentQuestion, "3")}
                 /> {quizData[currentQuestion].option3}
               </label>
               <label>
@@ -116,7 +119,8 @@ export default function CodingQuiz() {
                   type="radio"
                   name={`question${currentQuestion}`}
                   value="4"
-                  onClick={() => handleAnswer(currentQuestion, 4)}
+                  checked={userAnswers[currentQuestion] === "4"} // Check if this option is selected
+                  onChange={() => handleAnswer(currentQuestion, "4")}
                 /> {quizData[currentQuestion].option4}
               </label>
             </div>
@@ -153,10 +157,10 @@ export default function CodingQuiz() {
         <div className="results-section">
           <h2>Quiz Completed</h2>
           <p>Your score is: {score} out of {quizData.length}</p>
-          <button className="btn btn-primary" onClick={()=>{window.location.reload()}}>
+          <button className="btn btn-primary" onClick={() => { window.location.reload(); }}>
             Retake Quiz
           </button>
-          <button className="btn btn-primary" onClick={()=>{nav("/dashboard")}}>
+          <button className="btn btn-primary" onClick={() => { nav("/dashboard"); }}>
             Go to Dashboard
           </button>
         </div>
