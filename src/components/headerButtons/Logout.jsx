@@ -5,7 +5,7 @@ export default function Logout() {
     
     function handleLogout() {
         localStorage.removeItem('loggedInUser');
-        window.location.href = '/login';  // Redirect to login page
+        window.location.href = '/';  // Redirect to login page
     }
 
   return (
